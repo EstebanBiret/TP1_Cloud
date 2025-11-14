@@ -19,7 +19,7 @@ variable "minio_password" {
 variable "web_bucket_name" {
   description = "Bucket web"
   type        = string
-  default     = "webbucket"
+  default     = "webbucket" 
 }
 
 variable "tp1_bucket_name" {
