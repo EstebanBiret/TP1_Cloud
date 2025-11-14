@@ -26,8 +26,8 @@ resource "minio_s3_object" "index_html" {
   object_name  = "index.html"
   source       = "index.html"
   content_type = "text/html"
-
 }
+
 resource "minio_s3_object" "style_css" {
   bucket_name  = minio_s3_bucket.web_bucket.bucket
   object_name  = "style.css"
@@ -35,7 +35,7 @@ resource "minio_s3_object" "style_css" {
   content_type = "text/css"
 }
 
-resource "minio_s3_bucket_policy" "webbucket_policy" {
+resource "minio_s3_bucket_policy" "webbucket_public_files" {
   bucket = minio_s3_bucket.web_bucket.bucket
 
   policy = <<EOF
@@ -46,7 +46,10 @@ resource "minio_s3_bucket_policy" "webbucket_policy" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": ["s3:GetObject"],
-      "Resource": ["arn:aws:s3:::webbucket/*"]
+      "Resource": [
+        "arn:aws:s3:::${var.web_bucket_name}/index.html",
+        "arn:aws:s3:::${var.web_bucket_name}/style.css"
+      ]
     }
   ]
 }
